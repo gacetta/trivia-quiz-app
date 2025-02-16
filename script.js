@@ -25,25 +25,47 @@ async function getNewQuestion() {
 
         // generate answer buttons
         const answers = Array(questionData.correctAnswer, ...questionData.incorrectAnswers)
-        generateButtons(answers);
+        console.log(answers)
+        generateButtons(answers, questionData.correctAnswer);
 
-        const answerContainer = document.getElementById("answerContainer");
     } catch (err) {
         console.log("Unable to fetch from API: ", err)
     }
 }
 
-const generateButtons = (answers) => {
+const generateButtons = (answers, correctAnswer) => {
     // locate container
     const answerButtonContainer = document.getElementById("answerBtnContainer");
     // erase previous buttons
     answerButtonContainer.innerHTML = ""
 
-    // iterate over answers and generate buttons
-    answers.forEach(answer => {
+    // create unordered list for buttons
+    const btnList = document.createElement('ul')
+    answerButtonContainer.appendChild(btnList)
+
+    // iterate over answers and generate buttons)
+    shuffleArray(answers).forEach(answer => {
+        const listElement = document.createElement("li")
         const button = document.createElement('button');
         button.textContent = answer;
-        button.addEventListener('click', () => console.log(`you clicked ${answer}`))
-        answerButtonContainer.appendChild(button)
+        button.addEventListener('click', () => handleAnswerClick(answer, correctAnswer))
+        listElement.appendChild(button)
+        btnList.appendChild(listElement)
     });
+}
+
+const shuffleArray = (array) => {
+    for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+    }
+    return array;
+};
+
+const handleAnswerClick = (selectedAnswer, correctAnswer) => {
+    if (selectedAnswer === correctAnswer) {
+        alert("Correct!")
+    } else {
+        alert("Incorrect")
+    }
 }
