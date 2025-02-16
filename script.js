@@ -3,13 +3,13 @@ console.log("script connected")
 document.getElementById("getQuestionBtn").addEventListener('click', getNewQuestion)
 
 async function getNewQuestion() {
-    const API_URL = 'https://the-trivia-api.com/v2/questions';
-    const categoryNumber = Math.floor(Math.random() * 10);
+    const categorySelection = document.getElementById("categoryDropdown").value;
+    const API_URL = `https://the-trivia-api.com/v2/questions?categories=${categorySelection}&limit=1`;
     console.log("getNewQuestion")
     try {
         const response = await fetch(API_URL);
         const data = await response.json();
-        const questionData = data[categoryNumber]
+        const questionData = data[0]
 
         // assign category
         const categoryElement = document.getElementById("category");
