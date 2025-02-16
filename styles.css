@@ -26,3 +26,9 @@ body {
     border: none;
     border-radius: 4px;
   }
+
+  #categoryContainer, #difficultyContainer {
+    padding: 0px 10px;
+    display: flex;
+    align-items: flex-start;
+  }
